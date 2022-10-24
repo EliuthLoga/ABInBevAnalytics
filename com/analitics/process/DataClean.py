@@ -21,7 +21,7 @@ class ParquetCleaning:
         self.parquet_data.remove_duplicates()
 
         root.info("Removing rows whose Quantity >= limit_value.")
-        self.parquet_data.filter_rows_by_quantity(limit_value)
+        self.parquet_data.filter_rows_by_quantity(Constants.QUANTITY, limit_value)
 
 
 

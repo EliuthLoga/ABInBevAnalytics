@@ -132,9 +132,9 @@ class ParquetPandasDF(ParquetData):
 
     def filter_rows_by_quantity(self, column_name, limit):
         """
-        Removes rows whose quantity < than limit.
+        Removes rows whose quantity >= than limit.
         """
-        self.data_frame.drop(self.data_frame[(self.data_frame[column_name] < limit)].index, inplace=True)
+        self.data_frame.drop(self.data_frame[(self.data_frame[column_name] >= limit)].index, inplace=True)
 
     def remove_rows_zero_val(self, column_name):
         """
