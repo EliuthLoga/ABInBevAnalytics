@@ -1,7 +1,7 @@
 # ABInBevAnalytics
 
 This repository contains a solution to the problem of generate recommendations to users 
-into the ABInBev Analytics application.
+into the AB InBev Analytics  application.
 
 ### Running
 
