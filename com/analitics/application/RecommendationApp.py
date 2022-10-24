@@ -72,6 +72,8 @@ def get_transaction_dataset(root, transaction_data_file):
 
 
 if __name__ == "__main__":
+
+    # Initialize Logger
     root = logging.getLogger()
     root.setLevel(logging.DEBUG)
 
@@ -84,23 +86,24 @@ if __name__ == "__main__":
     cleaned_data_file = "../data/CleanedData.csv"
     transactions_data_file = "../data/TransactionsData.csv"
 
+    # Load cleaned data and transaction matrix.
     cleaned_dataset_df = get_cleaned_dataset(cleaned_data_file)
     transactions_df = get_transaction_dataset(root, transactions_data_file)
 
-    users_recommendations = 10
-    recommendations_number = 10
-    support = 3
-    confidence = 0.7
-    top = 4
-    random_users = False
-    limit_date = "2022-07-01"
+    # Recommender System Parameters
+    users_recommendations = 10      # Users to randomly take and make the predictions.
+    #recommendations_number = 10
+    support = 3                     # Frequent item-set support.
+    confidence = 0.7                # Association rules confidence.
+    top = 4                         # Top K to recommend.
+    random_users = False            # If use random_users.
+    limit_date = "2022-07-01"       # Time threshold.
 
     recommender_system = FrequentItemSetRecommenderSystem(
         cleaned_dataset_df,
         transactions_df,
         limit_date,
         n_users=users_recommendations,
-        n_recommendations=recommendations_number,
         top=top,
         support=support,
         confidence=confidence,
