@@ -12,9 +12,11 @@ from com.analitics.utilities import Constants, Utilities
 
 def get_cleaned_dataset(root, cleaned_data_file):
     """
-
-    :param cleaned_data_file:
-    :return:
+    Returns the cleaned dataset. If it was saved then it reads the csv file,
+    If not, then it creates it and saves it.
+    :param root: The log class.
+    :param cleaned_data_file: The file name.
+    :return: DataFrame
     """
 
     if exists(cleaned_data_file):
@@ -49,9 +51,11 @@ def get_cleaned_dataset(root, cleaned_data_file):
 
 def get_transaction_dataset(root, transaction_data_file):
     """
-
-    :param transaction_data_file:
-    :return:
+    Returns the transaction dataset. If it was saved then it reads the csv file,
+    If not, then it creates it and saves it.
+    :param root: The log class.
+    :param transaction_data_file: The file name.
+    :return: DataFrame
     """
     if exists(transaction_data_file):
         root.info("Loading transactions CSV file.")
