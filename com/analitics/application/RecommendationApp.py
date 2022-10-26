@@ -38,6 +38,8 @@ def get_cleaned_dataset(root, cleaned_data_file):
             [Constants.DATE, Constants.ACCOUNT_ID, Constants.PRODUCT_ID],
             Constants.QUANTITY)
 
+        cleaned_dataset_df.to_csv(cleaned_data_file, index=False)
+
     Utilities.add_date_information(cleaned_dataset_df, Constants.DATE)
 
     root.info(f"Cleaned DataFrame size {cleaned_dataset_df.shape}.")
