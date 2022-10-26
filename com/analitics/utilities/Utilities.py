@@ -417,6 +417,34 @@ def top_k_items(data_frame, group_column, count_column, k=3):
     return list(most_sold_df[:k].index)
 
 
+def top_k_items_recommendations(data_frame, group_column, k=3):
+    """
+    Returns the top-k consumed items on average by the user.
+    :param data_frame: DataFrame.
+    :param group_column: DataFrame.
+    :param k: DataFrame.
+    :return: A list of items_ids.
+    """
+
+    top_k = top_k_items(data_frame, group_column, Constants.QUANTITY, k=k)
+    modes = data_frame[
+        [group_column, Constants.QUANTITY]
+    ].groupby([group_column]).agg(pd.Series.mode)
+
+    day_of_week = data_frame[
+        [group_column, Constants.DAY_OF_WEEK]
+    ].groupby([group_column]).agg(pd.Series.mode)
+
+    result = []
+    for item in top_k:
+        freq = modes.loc[item].values[0]
+        day = day_of_week.loc[item].values[0]
+
+        result.append((str(item), freq, Constants.DAY_NAMES[day]))
+
+    return result
+
+
 def get_products_category(data_frame, products_ids):
     """
 

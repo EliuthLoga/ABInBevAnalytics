@@ -97,19 +97,26 @@ if __name__ == "__main__":
     transactions_df = get_transaction_dataset(root, transactions_data_file)
 
     # Recommender System Parameters
-    users_recommendations = 10      # Users to randomly take and make the predictions.
-    #recommendations_number = 10
+    users_to_recommend= 10      # Users to randomly take and make the predictions.
+    recommendations_number = 10
     support = 3                     # Frequent item-set support.
     confidence = 0.7                # Association rules confidence.
     top = 4                         # Top K to recommend.
     random_users = False            # If use random_users.
     limit_date = "2022-07-01"       # Time threshold.
 
+    top_k_rec = Utilities.top_k_items_recommendations(
+        cleaned_dataset_df,
+        Constants.PRODUCT_ID,
+        k=recommendations_number * 2)
+
     recommender_system = FrequentItemSetRecommenderSystem(
         cleaned_dataset_df,
         transactions_df,
         limit_date,
-        n_users=users_recommendations,
+        top_k_rec,
+        n_users=users_to_recommend,
+        n_recommendations=recommendations_number,
         top=top,
         support=support,
         confidence=confidence,
