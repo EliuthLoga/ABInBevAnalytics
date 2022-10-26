@@ -10,7 +10,7 @@ from com.analitics.recommendation.RecommenderSystem import FrequentItemSetRecomm
 from com.analitics.utilities import Constants, Utilities
 
 
-def get_cleaned_dataset(cleaned_data_file):
+def get_cleaned_dataset(root, cleaned_data_file):
     """
 
     :param cleaned_data_file:
@@ -61,7 +61,7 @@ def get_transaction_dataset(root, transaction_data_file):
             [Constants.DATE, Constants.ACCOUNT_ID],
             Constants.PRODUCT_ID,
             Constants.QUANTITY)
-        # transactions_df = pd.get_dummies(cleaned_df, columns=[Constants.ACCOUNT_ID])
+
         transactions_df.to_csv(transactions_data_file, index=False)
 
     Utilities.add_date_information(transactions_df, Constants.DATE)
@@ -87,7 +87,7 @@ if __name__ == "__main__":
     transactions_data_file = "../data/TransactionsData.csv"
 
     # Load cleaned data and transaction matrix.
-    cleaned_dataset_df = get_cleaned_dataset(cleaned_data_file)
+    cleaned_dataset_df = get_cleaned_dataset(root, cleaned_data_file)
     transactions_df = get_transaction_dataset(root, transactions_data_file)
 
     # Recommender System Parameters

@@ -1,5 +1,4 @@
 import abc
-import random
 
 import numpy as np
 import pandas as pd
@@ -101,14 +100,12 @@ class FrequentItemSetRecommenderSystem(RecommenderSystem):
         users_recommendations = []
 
         if self.random_users:
-            self.test_users = random.sample(self.users, k=self.n_users)
+            self.test_users = Utilities.random_select(self.users, k=self.n_users)
         else:
             self.test_users = [33237129, 33611229, 33236163, 33238638, 40620450, 33710592,
                                33240375, 37545453, 33259770, 40518873, 33256614]
 
         for user_id in self.test_users:
-            # user_history_df = transactions_df[transactions_df[Constants.ACCOUNT_ID] == user_id]
-            #print(f"User ID: {user_id}")
 
             # User history information of the buys of the user before limit_date
             user_history_data = Utilities.get_user_history_df(
@@ -156,9 +153,6 @@ class FrequentItemSetRecommenderSystem(RecommenderSystem):
             user_history_data,
             user_history_transactions)
         engine.generate_recommendations(algorithm, k=self.top)
-
-        #recommendations_df = engine.get_recommendations_df()
-        #print(engine.get_recommendations_df())
 
         return engine.recommendations
 

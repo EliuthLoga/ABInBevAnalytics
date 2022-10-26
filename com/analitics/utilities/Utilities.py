@@ -1,3 +1,4 @@
+import random
 import numpy as np
 import pandas as pd
 
@@ -377,3 +378,67 @@ def product_group_by(data_frame, group_by):
     """
 
     return data_frame[[Constants.PRODUCT_ID, group_by]].groupby([Constants.PRODUCT_ID])
+
+
+def transactions_per_day_df(data_frame):
+    """
+
+    :param data_frame:
+    :return:
+    """
+    all_products = sorted(list(data_frame[Constants.PRODUCT_ID].unique()), reverse=False)
+
+    day_product_quantity = []
+    for day in data_frame.Date:
+        sub_df = data_frame[data_frame[Constants.DATE] == day]
+        products_list = [0] * len(all_products)
+        day_product_quantity.append(products_list)
+
+        for product in sub_df.Product_id:
+            quantity = sub_df[sub_df[Constants.PRODUCT_ID] == product][Constants.QUANTITY].values[0]
+            products_list[all_products.index(product)] = quantity
+
+    return pd.DataFrame(data=day_product_quantity, index=data_frame.Date, columns=all_products)
+
+
+def top_k_items(data_frame, group_column, count_column, k=3):
+    """
+    Returns the top-k consumed items on average by the user.
+    :param data_frame: DataFrame.
+    :param group_column:
+    :param count_column:
+    :param k: Integer, the k-most consumed items. Defaults, 3.
+    :return: A list of items_ids.
+    """
+    most_sold_df = data_frame[
+        [group_column, count_column]].groupby(
+        [group_column]).sum().sort_values(by=count_column, ascending=False)[:k]
+
+    return list(most_sold_df[:k].index)
+
+
+def get_products_category(data_frame, products_ids):
+    """
+
+    :param data_frame:
+    :param products_ids:
+    :return:
+    """
+    data = []
+    for product in products_ids:
+        inf = data_frame[
+            data_frame[Constants.PRODUCT_ID] == product][
+            [Constants.PRODUCT_ID, Constants.CATEGORY]].iloc[0]
+        data.append(list(inf.values))
+
+    return pd.DataFrame(data=data, columns=[Constants.PRODUCT_ID, Constants.CATEGORY])
+
+
+def random_select(values_list, k=1):
+    """
+
+    :param values_list:
+    :param k:
+    :return:
+    """
+    return random.sample(values_list, k=k)
