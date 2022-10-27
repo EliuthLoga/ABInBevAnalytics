@@ -42,7 +42,7 @@ class UserFrequentItemsEngine:
         item_history = self.user_history_df[
             (self.user_history_df[Constants.PRODUCT_ID] == item_id)]
 
-        quantity = int(item_history[Constants.QUANTITY].mean())
+        quantity = int(item_history[Constants.QUANTITY].mode()[0])
         day_week = int(item_history[Constants.DAY_OF_WEEK].mode()[0])
 
         return (quantity, day_week)
@@ -89,7 +89,8 @@ class UserFrequentItemsEngine:
         associations = algorithm.associations_as_df()
 
         for most_consumed_item in self.top_k_items(k):
-            self.add_item_recommendation(most_consumed_item)
+            if most_consumed_item not in self.recommended_items:
+                self.add_item_recommendation(most_consumed_item)
             self.process_association_items(most_consumed_item, associations)
 
     def add_item_recommendation(self, item):
